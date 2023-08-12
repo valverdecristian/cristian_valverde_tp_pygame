@@ -1,6 +1,6 @@
 {
     "nivel_1": {
-        "terminado": true,
+        "terminado": false,
         "reset": false
     },
     "nivel_2": {

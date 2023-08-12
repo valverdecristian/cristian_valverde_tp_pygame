@@ -14,10 +14,9 @@ pygame.display.set_caption("Platform shooter")
 RELOJ = pygame.time.Clock()
 PANTALLA = pygame.display.set_mode(TAMAÑO_PANTALLA)
 imagen_fondo = pygame.image.load(r"menu_1\fondo_menu.jpg")
-
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-nivel_uno = Level3(ANCHO_PANTALLA,ALTO_PANTALLA)
+nivel_prueba = Level1(ANCHO_PANTALLA,ALTO_PANTALLA)
 
 flag = True
 while flag:
@@ -29,7 +28,7 @@ while flag:
             pygame.quit()
             sys.exit(0)
     
-    nivel_uno.update(lista_eventos)
-    nivel_uno.draw(pantalla=PANTALLA)
+    nivel_prueba.update(lista_eventos)
+    nivel_prueba.draw(pantalla=PANTALLA)
 
     pygame.display.update()

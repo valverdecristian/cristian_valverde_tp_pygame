@@ -1,4 +1,3 @@
-
 import pygame
 from pygame.locals import*
 from GUI_form import*
@@ -11,7 +10,6 @@ from GUI_form_menu_score import*
 from GUI_forms_menu_play import*
 from nivel import*
 import sqlite3
-from banderas import*
 from constantes import *
 
 
@@ -53,12 +51,12 @@ class FormPrincipal(Form):
         self.lista_widgets.append(self.slider_volumen)
         self.lista_widgets.append(self.btn_tabla)
         self.lista_widgets.append(self.btn_jugar)
-
         
-
-        pygame.mixer.music.load(r"menu_1\fondo_menu.mp3")
-        pygame.mixer.music.set_volume(self.volumen)
-        pygame.mixer.music.play(-1)
+        # agregar sonido
+        
+        # pygame.mixer.music.load(r"menu_1\fondo_menu.mp3")
+        # pygame.mixer.music.set_volume(self.volumen)
+        # pygame.mixer.music.play(-1)
 
         self.render()
 
@@ -124,10 +122,23 @@ class FormPrincipal(Form):
                                     path_image= r"menu_1\levels.png")
             
 
-            crear_bandera("bandera_1","false")
-            crear_bandera("bandera_2","false")
-            crear_bandera("bandera_3","false")
-        
+            banderas = {
+                "nivel_1": {
+                    "terminado": False,
+                    "reset": False
+                },
+                "nivel_2": {
+                    "terminado": False,
+                    "reset": False
+                },
+                "nivel_3": {
+                    "terminado": False,
+                    "reset": False
+                }
+            }
+
+            crear_banderas(banderas)
+            
             self.show_dialog(form_jugar)
         # CREAMOS BD
         if self.flag_sql == True:

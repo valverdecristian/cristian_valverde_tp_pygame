@@ -53,11 +53,13 @@ class FormMenuPlay(Form):
 
     def entrar_nivel_1(self,nombrevel):
         print("entre nivel")
+        modificar_banderas("nivel_1", "reset", False)
         nivel = self.manejador_niveles.get_nivel_1()
         form_contenedor_nivel = FormContenedorNivel(self._master,nivel)
         self.show_dialog(form_contenedor_nivel)
 
     def entrar_nivel_2(self,nombre_nivel):
+        modificar_banderas("nivel_2", "reset", False)
         nivel_uno_terminado = leer_bandera("nivel_1", "terminado")
         if nivel_uno_terminado:
             print("entre nivel 2")
@@ -66,6 +68,7 @@ class FormMenuPlay(Form):
             self.show_dialog(form_contenedor_nivel)
 
     def entrar_nivel_3(self,nombre_nivel):
+        modificar_banderas("nivel_3", "reset", False)
         nivel_uno_terminado = leer_bandera("nivel_1", "terminado")
         nivel_dos_terminado = leer_bandera("nivel_2", "terminado")
         if nivel_uno_terminado and nivel_dos_terminado:

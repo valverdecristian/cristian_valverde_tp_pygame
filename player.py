@@ -4,16 +4,16 @@ from auxiliar import Auxiliar
 class Player:
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
 
-        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Idle ({0}).png",1,10,flip=False,scale=p_scale)
-        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Idle ({0}).png",1,10,flip=True,scale=p_scale)
-        self.jump_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Jump ({0}).png",1,10,flip=False,scale=p_scale)
-        self.jump_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Jump ({0}).png",1,10,flip=True,scale=p_scale)
-        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Run ({0}).png",1,8,flip=False,scale=p_scale)
-        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Run ({0}).png",1,8,flip=True,scale=p_scale)
-        self.shoot_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Shoot ({0}).png",1,3,flip=False,scale=p_scale,repeat_frame=2)
-        self.shoot_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Shoot ({0}).png",1,3,flip=True,scale=p_scale,repeat_frame=2)
-        self.knife_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Melee ({0}).png",1,7,flip=False,scale=p_scale,repeat_frame=1)
-        self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/cowgirl/Melee ({0}).png",1,7,flip=True,scale=p_scale,repeat_frame=1)
+        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
+        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=True,scale=p_scale)
+        self.jump_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Jump ({0}).png",1,10,flip=False,scale=p_scale)
+        self.jump_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Jump ({0}).png",1,10,flip=True,scale=p_scale)
+        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Run ({0}).png",1,8,flip=False,scale=p_scale)
+        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Run ({0}).png",1,8,flip=True,scale=p_scale)
+        self.shoot_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,3,flip=False,scale=p_scale,repeat_frame=2)
+        self.shoot_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,3,flip=True,scale=p_scale,repeat_frame=2)
+        self.knife_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,7,flip=False,scale=p_scale,repeat_frame=1)
+        self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,7,flip=True,scale=p_scale,repeat_frame=1)
 
         self.frame = 0
         self.lives = 5

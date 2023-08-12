@@ -1,8 +1,6 @@
 import pygame
 from constantes import *
 from auxiliar import Auxiliar
-# from botin import Gema
-
 
 class Plataform:
     def __init__(self, x, y,width, height,  type=1):
