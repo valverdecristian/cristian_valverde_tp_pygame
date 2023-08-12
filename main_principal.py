@@ -29,8 +29,11 @@ while flag:
             pygame.quit()
             sys.exit(0)
         elif evento.type == pygame.KEYDOWN:
-           if evento.key == pygame.K_ESCAPE:
+            if evento.key == pygame.K_ESCAPE:
                 is_paused = not is_paused
+        elif evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_TAB:
+                cambiar_modo()
             
     PANTALLA.fill("Black")
     

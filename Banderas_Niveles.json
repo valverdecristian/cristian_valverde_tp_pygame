@@ -4,11 +4,11 @@
         "reset": false
     },
     "nivel_2": {
-        "terminado": true,
+        "terminado": false,
         "reset": false
     },
     "nivel_3": {
-        "terminado": true,
+        "terminado": false,
         "reset": false
     }
 }

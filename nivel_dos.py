@@ -39,7 +39,7 @@ class Level2():
             x,y,width,height,type=coordenada
             self.plataform_list.append(Plataform(x,y,width,height,type))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema2.png")
+            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema2.png", nombre="gema")
             self.objeto_list.append(gema)
         veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)

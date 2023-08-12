@@ -11,22 +11,26 @@ FPS = 60
 DIRECTION_L = 0
 DIRECTION_R = 1
 GROUND_COLLIDE_H = 8
-DEBUG = False
 
 DEBUG = False
+def cambiar_modo():
+    global DEBUG
+    DEBUG = not DEBUG
+
+def get_mode():
+    return DEBUG
 
 #defino los colores
 VERDE = (144, 201, 120) 
 ROJO = (255, 0, 0) 
+AZUL = (0,0,255)
+AMARILLO = (255, 255, 0)
 BLANCO = (255, 255, 255) 
 VERDE = (0, 255, 0) 
 NEGRO = (0, 0, 0) 
 ROSA = (235, 65, 54) 
-AZUL = (0,0,255)
 C_PEACH = (255, 118, 95)
 C_BLUE_2 = (38, 0, 160)
-C_YELLOW_2 = (255, 174, 0)
-C_GREEEN_2 = (38, 137, 0)
 C_ORANGE = (255, 81, 0)
 
 # MOUSE CONSTANTS

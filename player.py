@@ -187,12 +187,13 @@ class Player:
         
         # Mostrar puntaje en la pantalla
         font = pygame.font.SysFont(None, 36)
-        score_text = font.render("Score: " + str(self.score), True, ROJO)
+        score_text = font.render("Score: " + str(self.score), True, BLANCO)
         screen.blit(score_text, (10, 10))
+        
     def events(self, delta_ms, lista_eventos):
         self.tiempo_transcurrido += delta_ms
 
-        keys = {}
+        keys = dict()
         for event in lista_eventos:
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 keys[event.key] = event.type == pygame.KEYDOWN

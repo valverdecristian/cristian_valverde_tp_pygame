@@ -37,7 +37,7 @@ class Level3():
             x,y,width,height,type=coordenada
             self.plataform_list.append(Plataform(x,y,width,height,type))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema3.png")
+            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema3.png", nombre="gema")
             self.objeto_list.append(gema)
         veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)
@@ -49,7 +49,6 @@ class Level3():
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
-
 
         for bullet_element in self.bullet_list:
             print("dispara")

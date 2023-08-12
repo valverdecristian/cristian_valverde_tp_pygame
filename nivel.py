@@ -30,7 +30,6 @@ class Level1():
 
         self.enemy_list = list()
         self.enemy_list.append (Enemy(x=700,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
-        # self.enemy_list.append (Enemy(x=1200,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.enemy_list.append (Enemy(x=900,y=200,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.plataform_list = list()
         self.objeto_list = list()
@@ -46,14 +45,11 @@ class Level1():
         veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)
         
-
         self.bullet_list = list()
-
 
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
-
 
         for bullet_element in self.bullet_list:
             print("dispara")
@@ -68,7 +64,7 @@ class Level1():
         if not self.enemy_list and self.flagenemy == False:
             print("aparece la gemawin")
             self.flagenemy = True
-            gemawin = Objeto(x=1000, y=550, width=30, height=30, image_path="images/gemawin.png", nombre="gemawin")
+            gemawin = Objeto(x=1000, y=550, width=40, height=40, image_path="images/gemawin.png", nombre="gemawin")
             self.objeto_list.append(gemawin)
             
         for objeto in self.objeto_list:
@@ -87,17 +83,12 @@ class Level1():
         self.player_1.update(delta_ms,self.plataform_list)
         self.cronometro.actualizar()
     
-
     def draw(self, pantalla): 
-
-
-        
         if leer_bandera("nivel_1", "terminado"):
                 print("Gano")
                 imagen = pygame.image.load(r'menu_1\win.jpg')
                 imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
                 pantalla.blit(imagen_escalada, (0, 0))
-
         elif  self.player_1.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
             print("perdio")
             imagen = pygame.image.load(r'menu_1\gameover.png')
@@ -125,12 +116,6 @@ class Level1():
             self.cronometro.mostrar_tiempo(pantalla)
             
     def guardar_partida(self):
-        '''
-        Brief: Guarda en un archivio la ultima puntucion del jugado
-
-        Parameters:
-            self -> Instancia de la clase   
-        '''
         with open("score.txt","w") as archivo:
             archivo.write(str(self.player_1.score))
 
