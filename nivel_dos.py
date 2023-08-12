@@ -10,6 +10,7 @@ from botin import Objeto
 from auxiliar import Auxiliar
 from class_healthBar import HealthBar
 from class_chronometer import Chronometer
+from manejador_banderas import *
 
 class Level2():
     def __init__(self,w,h):
@@ -28,16 +29,20 @@ class Level2():
         self.enemy_list.append (Enemy(x=700,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.enemy_list.append (Enemy(x=1100,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.enemy_list.append (Enemy(x=900,y=200,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
+        self.flagenemy = False
         self.plataform_list = list()
-        self.gema_list = list()
-        self.veneno_list = list()
+        self.objeto_list = list()
+        self.flagenemy = False
+
         
         for coordenada in self.datos_obtenidos["segundo_nivel"]["plataformas"]:
             x,y,width,height,type=coordenada
             self.plataform_list.append(Plataform(x,y,width,height,type))
 
             gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema2.png")
-            self.gema_list.append(gema)
+            self.objeto_list.append(gema)
+        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
+        self.objeto_list.append(veneno)
 
         # lista de balas
         self.bullet_list = list()
@@ -57,20 +62,42 @@ class Level2():
                 print("colisiono con el enemigo")
                 self.enemy_list.remove(enemy_element)
             enemy_element.update(delta_ms,self.plataform_list)
+
+        if not self.enemy_list and self.flagenemy == False:
+            print("aparece la gemawin")
+            self.flagenemy = True
+            gemawin = Objeto(x=1000, y=550, width=30, height=30, image_path="images/gemawin.png", nombre="gemawin")
+            self.objeto_list.append(gemawin)
             
-        for gema_element in self.gema_list:
-            if self.player_1.rect.colliderect(gema_element.rect):
-                self.player_1.score += 100  # Aumentar el puntaje del jugador
-                self.gema_list.remove(gema_element)  # Eliminar la gema
+        for objeto in self.objeto_list:
+            if self.player_1.rect.colliderect(objeto.rect):
+                if objeto.nombre == "gema":
+                    self.player_1.score += 100  # Aumentar el puntaje del jugador
+                elif objeto.nombre == "veneno":
+                    print("tomo un veneno xd")
+                    self.player_1.lives -=1 # Restar vida del jugador
+                elif objeto.nombre == "gemawin":
+                    self.guardar_partida()
+                    modificar_banderas("nivel_2", "terminado", True)
+                self.objeto_list.remove(objeto)  # Elimina el objeto
 
         self.player_1.events(delta_ms,lista_eventos)
         self.player_1.update(delta_ms,self.plataform_list)
 
         self.cronometro.actualizar()
 
-
     def draw(self, pantalla): 
-        if self.player_1.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
+
+
+        
+        if leer_bandera("nivel_2", "terminado"):
+                print("Gano")
+                imagen = pygame.image.load(r'menu_1\win.jpg')
+                imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
+                pantalla.blit(imagen_escalada, (0, 0))
+
+        elif  self.player_1.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
+            print("perdio")
             imagen = pygame.image.load(r'menu_1\gameover.png')
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
@@ -90,6 +117,18 @@ class Level2():
             for bullet_element in self.bullet_list:
                 bullet_element.draw(pantalla)
                 
-            for gema_element in self.gema_list:
+            for gema_element in self.objeto_list:
                 gema_element.draw(pantalla)
+                
             self.cronometro.mostrar_tiempo(pantalla)
+    
+    def guardar_partida(self):
+        '''
+        Brief: Guarda en un archivio la ultima puntucion del jugado
+
+        Parameters:
+            self -> Instancia de la clase   
+        '''
+        with open("score.txt","w") as archivo:
+            archivo.write(str(self.player_1.score))
+    

@@ -3,9 +3,9 @@ from pygame.locals import *
 import sys
 from constantes import *
 from GUI_form import Form
-from gui_form_menu_A import FormMenuA # pricipal
-from gui_form_menu_B import FormMenuB
-from gui_form_menu_C import FormMenuC
+# from gui_form_menu_A import FormMenuA # pricipal
+# from gui_form_menu_B import FormMenuB
+# from gui_form_menu_C import FormMenuC
 from gui_form_menu_game_l1 import FormGameLevel1
 
 flags = DOUBLEBUF 

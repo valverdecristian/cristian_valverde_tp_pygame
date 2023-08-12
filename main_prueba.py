@@ -17,7 +17,7 @@ imagen_fondo = pygame.image.load(r"menu_1\fondo_menu.jpg")
 
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-nivel_uno = Level1(ANCHO_PANTALLA,ALTO_PANTALLA)
+nivel_uno = Level3(ANCHO_PANTALLA,ALTO_PANTALLA)
 
 flag = True
 while flag:

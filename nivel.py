@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from constantes import *
-
 from player import Player
 from enemigo import Enemy
 from plataforma import Plataform
@@ -11,6 +10,7 @@ from botin import Objeto
 from auxiliar import Auxiliar
 from class_healthBar import HealthBar
 from class_chronometer import Chronometer
+from manejador_banderas import *
 
 
 class Level1():
@@ -46,8 +46,7 @@ class Level1():
         veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)
         
-        # gemawin = Objeto(x=1000, y=550, width=30, height=30, image_path="images/gemawin.png", nombre="gemawin")
-        # self.objeto_list.append(gemawin)
+
         self.bullet_list = list()
 
 
@@ -80,7 +79,8 @@ class Level1():
                     print("tomo un veneno xd")
                     self.player_1.lives -=1 # Restar vida del jugador
                 elif objeto.nombre == "gemawin":
-                    print("tomo un veneno xd")
+                    self.guardar_partida()
+                    modificar_banderas("nivel_1", "terminado", True)
                 self.objeto_list.remove(objeto)  # Elimina el objeto
 
         self.player_1.events(delta_ms,lista_eventos)
@@ -89,8 +89,17 @@ class Level1():
     
 
     def draw(self, pantalla): 
-        if self.player_1.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
-            print("termino el juego")
+
+
+        
+        if leer_bandera("nivel_1", "terminado"):
+                print("Gano")
+                imagen = pygame.image.load(r'menu_1\win.jpg')
+                imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
+                pantalla.blit(imagen_escalada, (0, 0))
+
+        elif  self.player_1.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
+            print("perdio")
             imagen = pygame.image.load(r'menu_1\gameover.png')
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
@@ -114,3 +123,14 @@ class Level1():
                 gema_element.draw(pantalla)
                 
             self.cronometro.mostrar_tiempo(pantalla)
+            
+    def guardar_partida(self):
+        '''
+        Brief: Guarda en un archivio la ultima puntucion del jugado
+
+        Parameters:
+            self -> Instancia de la clase   
+        '''
+        with open("score.txt","w") as archivo:
+            archivo.write(str(self.player_1.score))
+

@@ -5,7 +5,8 @@ from GUI_button_image import*
 from GUI_form import*
 from GUI_form_contenedor_nivel import*
 from Manejador_niveles import Manejador_niveles
-from banderas import*
+
+from manejador_banderas import *
 
 
 class FormMenuPlay(Form):
@@ -19,15 +20,15 @@ class FormMenuPlay(Form):
 
         self._btn_level_1 = Button_Image(screen=self._slave,x=100,y=140,master_x=x,master_y=y,
                                          w=100,h=150,onclick=self.entrar_nivel_1,
-                                         onclick_param="nivel_uno",path_image=r"images\gui\set_gui_01\Pixel_Border\Buttons\1.png")
+                                         onclick_param="nivel_uno",path_image=r"images\gui\Buttons\1.png")
 
         self._btn_level_2 = Button_Image(screen=self._slave,x=260,y=140,master_x=x,master_y=y,
                                          w=100,h=150,onclick=self.entrar_nivel_2,
-                                         onclick_param="nivel_dos",path_image=r"images\gui\set_gui_01\Pixel_Border\Buttons\2.png")
+                                         onclick_param="nivel_dos",path_image=r"images\gui\Buttons\2.png")
         
         self._btn_level_3 = Button_Image(screen=self._slave,x=190,y=300,master_x=x,master_y=y,
                                          w=100,h=150,onclick=self.entrar_nivel_3,
-                                         onclick_param="nivel_tres",path_image=r"images\gui\set_gui_01\Pixel_Border\Buttons\3.png")
+                                         onclick_param="nivel_tres",path_image=r"images\gui\Buttons\3.png")
         
         self._btn_home = Button_Image(screen=self._slave,x=400,y=400,master_x=x,master_y=y,
                                          w=50,h=50,onclick=self.btn_home_click,
@@ -57,17 +58,17 @@ class FormMenuPlay(Form):
         self.show_dialog(form_contenedor_nivel)
 
     def entrar_nivel_2(self,nombre_nivel):
-        bandera_1 = leer_bandera("bandera_1")
-        if bandera_1[0] == "true":
+        nivel_uno_terminado = leer_bandera("nivel_1", "terminado")
+        if nivel_uno_terminado:
             print("entre nivel 2")
             nivel_2 = self.manejador_niveles.get_nivel_2()
             form_contenedor_nivel = FormContenedorNivel(self._master,nivel_2)
             self.show_dialog(form_contenedor_nivel)
 
     def entrar_nivel_3(self,nombre_nivel):
-        bandera_1 = leer_bandera("bandera_1")
-        bandera_2 = leer_bandera("bandera_2")
-        if bandera_1[0] == "true" and bandera_2[0] == "true" :
+        nivel_uno_terminado = leer_bandera("nivel_1", "terminado")
+        nivel_dos_terminado = leer_bandera("nivel_2", "terminado")
+        if nivel_uno_terminado and nivel_dos_terminado:
             print("entre nivel 3")
             nivel_3 = self.manejador_niveles.get_nivel_3()
             form_contenedor_nivel = FormContenedorNivel(self._master,nivel_3)

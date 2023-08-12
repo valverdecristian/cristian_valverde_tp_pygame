@@ -2,26 +2,20 @@ import pygame,sys
 from pygame.locals import *
 from GUI_formulario_prueba import FormPrincipal
 from constantes import *
-# PANTALLA
-TAMAÑO_PANTALLA = ()
 
-# INICIAMOS PYGAME
+TAMAÑO_PANTALLA = list()
+
 pygame.init()
-pygame.display.set_caption("Platform shooter")
-
-# ---- ICONO ----
-icono = pygame.image.load(r"img/icons/ammo_box.png")
-pygame.display.set_icon(icono)
+pygame.display.set_caption("TP Juego Plataformas")
 
 RELOJ = pygame.time.Clock()
 PANTALLA = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 imagen_fondo = pygame.image.load(r"menu_1\fondo_menu.jpg")
-
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
 form_principal = FormPrincipal(PANTALLA, 0, 0, ANCHO_PANTALLA, ALTO_PANTALLA, imagen_fondo, (171, 1, 1))
 
-pausa = pygame.image.load(r"menu_1\8-bitpause.jpg")
+pausa = pygame.image.load(r"menu_1\pause.png")
 pausa = pygame.transform.scale(pausa,(500,500))
 
 is_paused = False
