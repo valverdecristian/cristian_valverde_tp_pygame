@@ -34,21 +34,21 @@ class Level1():
         
         for coordenada in self.datos_obtenidos["primer_nivel"]["plataformas"]:
             x,y,width,height,type=coordenada
-            self.plataform_list.append(Plataform(x,y,width,height,type))
+            self.plataform_list.append(Plataform(x,y,width,height,type, path_img="images/tileset/plataforma1.png"))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema1.png", nombre="gema")
+            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/objetos/gema1.png", nombre="gema")
             self.objeto_list.append(gema)
 
-        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
+        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/objetos/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)
 
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
 
-        for bullet_element in self.bullet_list:
+        for bullet in self.bullet_list:
             print("dispara")
-            bullet_element.update(delta_ms,self.plataform_list,self.enemy_list,self.player)
+            bullet.update(delta_ms,self.plataform_list,self.enemy_list,self.player)
 
         for enemy_element in self.enemy_list:
             if self.player.rect.colliderect(enemy_element.rect):
@@ -102,8 +102,8 @@ class Level1():
             self.player.draw(pantalla)
             self.barra_salud.draw(self.player.lives,pantalla)
 
-            for bullet_element in self.bullet_list:
-                bullet_element.draw(pantalla)
+            for bullet in self.bullet_list:
+                bullet.draw(pantalla)
                 
             for gema_element in self.objeto_list:
                 gema_element.draw(pantalla)

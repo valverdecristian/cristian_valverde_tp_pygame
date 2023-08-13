@@ -12,7 +12,7 @@ class Form(Widget):
         self.slave_rect.x = x
         self.slave_rect.y = y
         self.active = active
-        self.lista_widgets = []
+        self.lista_de_botones = []
         self.hijo = None
         self.dialog_result = None
         self.padre = None

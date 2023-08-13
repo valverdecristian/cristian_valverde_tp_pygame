@@ -1,13 +1,10 @@
 import pygame
 from pygame.locals import*
-
 from GUI_button_image import*
 from GUI_form import*
 from GUI_form_contenedor_nivel import*
 from Manejador_niveles import Manejador_niveles
-
 from manejador_banderas import *
-
 
 class FormMenuPlay(Form):
     def __init__(self, screen, x, y, w, h, color_background, color_border, active, path_image):
@@ -34,18 +31,17 @@ class FormMenuPlay(Form):
                                          w=50,h=50,onclick=self.btn_home_click,
                                          onclick_param="",path_image=r"API_FORMS\home.png")
     
-    
-        self.lista_widgets.append(self._btn_level_1)
-        self.lista_widgets.append(self._btn_level_2)
-        self.lista_widgets.append(self._btn_level_3)
-        self.lista_widgets.append(self._btn_home)
+        self.lista_de_botones.append(self._btn_level_1)
+        self.lista_de_botones.append(self._btn_level_2)
+        self.lista_de_botones.append(self._btn_level_3)
+        self.lista_de_botones.append(self._btn_home)
        
     def on(self,parametro):
         print("hola", parametro)
 
     def update(self, lista_eventos):
         if self.verificar_dialog_result():
-            for widget in self.lista_widgets:
+            for widget in self.lista_de_botones:
                 widget.update(lista_eventos)
             self.draw()
         else:

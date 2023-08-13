@@ -25,11 +25,6 @@ def leer_bandera(nivel, bandera):
 
     return banderas_niveles[nivel][bandera]
 
-# Ejemplo de uso
-# valor_terminado_nivel_1 = leer_bandera("nivel_1", "terminado")
-# valor_reset_nivel_2 = leer_bandera("nivel_2", "reset")
-
-
 def modificar_banderas(nivel, bandera, nuevo_valor):
     """
     La función `modificar_banderas` modifica el valor de una bandera ("terminado" o "reset") para un nivel dado en un archivo JSON.
@@ -45,27 +40,3 @@ def modificar_banderas(nivel, bandera, nuevo_valor):
 
     with open("Banderas_Niveles.json", "w") as archivo:
         json.dump(banderas_niveles, archivo, indent=4)
-
-
-
-banderas = {
-    "nivel_1": {
-        "terminado": False,
-        "reset": False
-    },
-    "nivel_2": {
-        "terminado": False,
-        "reset": False
-    },
-    "nivel_3": {
-        "terminado": False,
-        "reset": False
-    }
-}
-
-crear_banderas(banderas)
-
-# Ejemplo de uso:
-# Supongamos que quieres modificar la bandera "terminado" del nivel 1 a True.
-#modificar_banderas("nivel_1", "terminado", True)
-

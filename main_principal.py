@@ -6,11 +6,11 @@ from constantes import *
 TAMAÑO_PANTALLA = list()
 
 pygame.init()
-pygame.display.set_caption("TP Juego Plataformas")
+pygame.display.set_caption("Robot Blaster Adventure")
 
 RELOJ = pygame.time.Clock()
 PANTALLA = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
-imagen_fondo = pygame.image.load(r"menu_1\fondo_menu.jpg")
+imagen_fondo = pygame.image.load(r"images/FONDO.png")
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
 form_principal = FormPrincipal(PANTALLA, 0, 0, ANCHO_PANTALLA, ALTO_PANTALLA, imagen_fondo, (171, 1, 1))
@@ -43,5 +43,3 @@ while flag:
         PANTALLA.blit(pausa, (200,100))   
 
     pygame.display.update()
-
-

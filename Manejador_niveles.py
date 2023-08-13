@@ -3,8 +3,8 @@ from nivel import Level1
 from nivel_dos import Level2
 from nivel_tres import Level3
 from constantes import *
-class Manejador_niveles:
 
+class Manejador_niveles:
     def __init__(self, pantalla) -> None:
         self._slave = pantalla
         self.nivel = None

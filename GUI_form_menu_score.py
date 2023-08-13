@@ -20,8 +20,8 @@ class FormMenuScore(Form):
         lbl_jugador = Label(self._slave, x=margen_x + 10, y=20 , w= w/2-margen_x-10, h=50, text="Jugador", font="Verdana", font_size=30, font_color="White", path_image=r"API_FORMS\bar.png")
         lbl_puntaje = Label(self._slave, x=margen_x + 10 + w/2-margen_x-10, y=20 , w= w/2-margen_x-10, h=50, text="Puntaje", font="Verdana", font_size=30, font_color="White", path_image=r"API_FORMS\bar.png")
         
-        self.lista_widgets.append(lbl_jugador)
-        self.lista_widgets.append(lbl_puntaje)
+        self.lista_de_botones.append(lbl_jugador)
+        self.lista_de_botones.append(lbl_puntaje)
 
         pos_inicial_y = margen_y
 
@@ -31,7 +31,7 @@ class FormMenuScore(Form):
                 cadena = ""
                 cadena = f"{s}"
                 jugador = Label(self._slave,pos_inicial_x,pos_inicial_y,w/2-margen_x,100,cadena,"verdana",30,"White",r"API_FORMS\bar.png") # cajar de tabla
-                self.lista_widgets.append(jugador)
+                self.lista_de_botones.append(jugador)
                 pos_inicial_x += w/2 - margen_x #corremos la x para excribir el proximo Label
 
             pos_inicial_y += 100 + espacio #corremos la y  para excribir el proximo Label
@@ -40,7 +40,7 @@ class FormMenuScore(Form):
                                        color_background=(255,0,255), onclick=self._bnt_home_click,#Metodos_Estaticos.entrar_nivel_1,
                                        onclick_param="",#{"Clave1": "valor1","Clave2":"valor2"},
                                        text="", font="Verdana", font_size=15, font_color=(0,255,0), path_image=r"API_FORMS\home.png") # botno home
-        self.lista_widgets.append(self._btn_home)
+        self.lista_de_botones.append(self._btn_home)
 
 
     def _bnt_home_click(self,param):
@@ -48,6 +48,6 @@ class FormMenuScore(Form):
 
     def update(self, lista_eventos):
         if self.active:
-            for wid in self.lista_widgets:
+            for wid in self.lista_de_botones:
                 wid.update(lista_eventos)
             self.draw()

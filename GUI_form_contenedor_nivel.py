@@ -29,12 +29,12 @@ class FormContenedorNivel(Form):
                                  "white",True,r"API_FORMS\home.png",
                                  dic,100,10,10)
         
-        self.lista_widgets.append(self._btn_home)
+        self.lista_de_botones.append(self._btn_home)
 
     def update(self,lista_eventos):
         self.nivel.update(lista_eventos)     
         self.draw()
-        for widget in self.lista_widgets:
+        for widget in self.lista_de_botones:
             widget.update(lista_eventos)
 
         

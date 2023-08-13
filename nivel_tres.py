@@ -36,12 +36,12 @@ class Level3():
         
         for coordenada in self.datos_obtenidos["tercer_nivel"]["plataformas"]:
             x,y,width,height,type=coordenada
-            self.plataform_list.append(Plataform(x,y,width,height,type))
+            self.plataform_list.append(Plataform(x,y,width,height,type, path_img="images/tileset/plataforma3.png"))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/gema3.png", nombre="gema")
+            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/objetos/gema3.png", nombre="gema")
             self.objeto_list.append(gema)
             
-        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/veneno.png", nombre="veneno")
+        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/objetos/veneno.png", nombre="veneno")
         self.objeto_list.append(veneno)
 
     def update(self,lista_eventos):

@@ -1,6 +1,8 @@
 import pygame
 from constantes import *
 from auxiliar import Auxiliar
+from bullet import Bullet
+
 class Player:
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
 
@@ -50,6 +52,7 @@ class Player:
         self.tiempo_transcurrido = 0
         self.tiempo_last_jump = 0 # en base al tiempo transcurrido general
         self.interval_time_jump = interval_time_jump
+        self.bullet_list = list()
 
     def walk(self,direction):
         if(self.is_jump == False and self.is_fall == False):
@@ -62,6 +65,16 @@ class Player:
                 else:
                     self.move_x = -self.speed_walk
                     self.animation = self.walk_l
+                    
+    def shoot_bullet(self):
+        bullet_speed = 10  # Velocidad de la bala
+        bullet_path = "images\caracters\players\robot\Objects\Bullet_000.png"  # Ruta de la imagen de la bala
+        target_x = self.rect.x + self.rect.width  # Coordenada x del objetivo (por ejemplo, frente al jugador)
+        target_y = self.rect.y + self.rect.height / 2  # Coordenada y del objetivo (por ejemplo, altura media del jugador)
+        frame_rate_ms = 100  # Tasa de cuadro de la animación de la bala
+        move_rate_ms = 50  # Tasa de movimiento de la bala
+        bullet = Bullet(self, self.rect.x, self.rect.y, target_x, target_y, bullet_speed, bullet_path, frame_rate_ms, move_rate_ms)
+        self.bullet_list.append(bullet)
 
     def shoot(self,on_off = True):
         self.is_shoot = on_off
@@ -107,10 +120,10 @@ class Player:
             self.stay()
 
     def stay(self):
-        if(self.is_knife or self.is_shoot):
+        if self.is_knife or self.is_shoot:
             return
 
-        if(self.animation != self.stay_r and self.animation != self.stay_l):
+        if self.animation != self.stay_r and self.animation != self.stay_l:
             if(self.direction == DIRECTION_R):
                 self.animation = self.stay_r
             else:
@@ -172,6 +185,8 @@ class Player:
                 self.frame = 0
  
     def update(self,delta_ms,plataform_list):
+        for bullet in self.bullet_list:
+            bullet.update(delta_ms, plataform_list)
         self.do_movement(delta_ms,plataform_list)
         self.do_animation(delta_ms)
         
@@ -190,10 +205,17 @@ class Player:
         score_text = font.render("Score: " + str(self.score), True, BLANCO)
         screen.blit(score_text, (10, 10))
         
+        # for bullet in self.bullet_list:
+        #     bullet.draw(screen)
+        
     def events(self, delta_ms, lista_eventos):
-        self.tiempo_transcurrido += delta_ms
-
         keys = dict()
+        
+        self.tiempo_transcurrido += delta_ms
+        
+        if keys.get(pygame.K_s, False) and not keys.get(pygame.K_a, False):
+            self.shoot_bullet()
+
         for event in lista_eventos:
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 keys[event.key] = event.type == pygame.KEYDOWN
