@@ -5,7 +5,7 @@ from player import Player
 from enemigo import Enemy
 from plataforma import Plataform
 from background import Background
-from bullet import Bullet
+from bullet import *
 from botin import Objeto
 from auxiliar import Auxiliar
 from class_healthBar import HealthBar
@@ -25,10 +25,9 @@ class Level3():
         self.datos_obtenidos = Auxiliar.leer_json(ruta="niveles.json")
 
         self.enemy_list = list()
-        self.enemy_list.append (Enemy(x=700,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
-        self.enemy_list.append (Enemy(x=600,y=100,speed_walk=3,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
-        # self.enemy_list.append (Enemy(x=1100,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
+        self.enemy_list.append (Enemy(x=900,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.enemy_list.append (Enemy(x=900,y=200,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
+        self.enemy_list.append (Enemy(x=550,y=100,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.plataform_list = list()
         self.objeto_list = list()
         self.bullet_list = list()
@@ -38,11 +37,12 @@ class Level3():
             x,y,width,height,type=coordenada
             self.plataform_list.append(Plataform(x,y,width,height,type, path_img="images/tileset/plataforma3.png"))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/objetos/gema3.png", nombre="gema")
+            gema = Objeto(x=x, y=y-80, width=30, height=30, image_path="images/objetos/gema3.png", nombre="gema")
             self.objeto_list.append(gema)
             
-        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/objetos/veneno.png", nombre="veneno")
-        self.objeto_list.append(veneno)
+        for coordenada in self.datos_obtenidos["tercer_nivel"]["veneno"]:
+            x,y,width,height = coordenada
+            self.objeto_list.append(Objeto(x,y,width,height, image_path="images/objetos/veneno.png", nombre="veneno"))
 
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
@@ -50,12 +50,12 @@ class Level3():
 
         for bullet_element in self.bullet_list:
             print("dispara")
-            bullet_element.update(delta_ms,self.plataform_list,self.enemy_list,self.player)
+            bullet_element.update(self, self.player, self.enemy_list, self.bullet_list)
 
         for enemy_element in self.enemy_list:
-            if self.player.rect.colliderect(enemy_element.rect):
-                print("colisiono con el enemigo")
-                self.enemy_list.remove(enemy_element)
+            # if self.player.rect.colliderect(enemy_element.rect):
+            #     print("colisiono con el enemigo")
+            #     self.enemy_list.remove(enemy_element)
             enemy_element.update(delta_ms,self.plataform_list)
             
         if not self.enemy_list and self.flagenemy == False:
@@ -77,7 +77,7 @@ class Level3():
                     modificar_banderas("nivel_3", "reset", True)
                 self.objeto_list.remove(objeto)  # Elimina el objeto
 
-        self.player.events(delta_ms,lista_eventos)
+        self.player.events(delta_ms,lista_eventos,self.bullet_list)
         self.player.update(delta_ms,self.plataform_list)
         self.cronometro.actualizar()
         

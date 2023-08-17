@@ -5,7 +5,6 @@ from player import Player
 from enemigo import Enemy
 from plataforma import Plataform
 from background import Background
-from bullet import Bullet
 from botin import Objeto
 from auxiliar import Auxiliar
 from class_healthBar import HealthBar
@@ -36,24 +35,25 @@ class Level1():
             x,y,width,height,type=coordenada
             self.plataform_list.append(Plataform(x,y,width,height,type, path_img="images/tileset/plataforma1.png"))
 
-            gema = Objeto(x=x, y=y-50, width=30, height=30, image_path="images/objetos/gema1.png", nombre="gema")
+            gema = Objeto(x=x, y=y-80, width=30, height=30, image_path="images/objetos/gema1.png", nombre="gema")
             self.objeto_list.append(gema)
-
-        veneno = Objeto(x=800, y=550, width=30, height=30, image_path="images/objetos/veneno.png", nombre="veneno")
-        self.objeto_list.append(veneno)
+            
+        for coordenada in self.datos_obtenidos["primer_nivel"]["veneno"]:
+            x,y,width,height = coordenada
+            self.objeto_list.append(Objeto(x,y,width,height, image_path="images/objetos/veneno.png", nombre="veneno"))
 
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
-
-        for bullet in self.bullet_list:
-            print("dispara")
-            bullet.update(delta_ms,self.plataform_list,self.enemy_list,self.player)
+        if self.bullet_list:
+            for bullet in self.bullet_list:
+                print("dispara")
+                bullet.update(self, self.player, self.enemy_list, self.bullet_list)
 
         for enemy_element in self.enemy_list:
-            if self.player.rect.colliderect(enemy_element.rect):
-                print("colisiono con el enemigo")
-                self.enemy_list.remove(enemy_element)
+            # if self.player.rect.colliderect(enemy_element.rect):
+            #     print("colisiono con el enemigo")
+            #     self.enemy_list.remove(enemy_element)
             enemy_element.update(delta_ms,self.plataform_list)
             
         if not self.enemy_list and self.flagenemy == False:
@@ -75,8 +75,9 @@ class Level1():
                     modificar_banderas("nivel_1", "reset", True)
                 self.objeto_list.remove(objeto)  # Elimina el objeto
 
-        self.player.events(delta_ms,lista_eventos)
+        self.player.events(delta_ms,lista_eventos,self.bullet_list)
         self.player.update(delta_ms,self.plataform_list)
+
         self.cronometro.actualizar()
     
     def draw(self, pantalla): 

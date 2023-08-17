@@ -1,7 +1,7 @@
 import pygame
 from constantes import *
 from auxiliar import Auxiliar
-from bullet import Bullet
+from bullet import Bullet2
 
 class Player:
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
@@ -65,32 +65,10 @@ class Player:
                 else:
                     self.move_x = -self.speed_walk
                     self.animation = self.walk_l
-                    
-    def shoot_bullet(self):
-        bullet_speed = 10  # Velocidad de la bala
-        bullet_path = "images\caracters\players\robot\Objects\Bullet_000.png"  # Ruta de la imagen de la bala
-        target_x = self.rect.x + self.rect.width  # Coordenada x del objetivo (por ejemplo, frente al jugador)
-        target_y = self.rect.y + self.rect.height / 2  # Coordenada y del objetivo (por ejemplo, altura media del jugador)
-        frame_rate_ms = 100  # Tasa de cuadro de la animación de la bala
-        move_rate_ms = 50  # Tasa de movimiento de la bala
-        bullet = Bullet(self, self.rect.x, self.rect.y, target_x, target_y, bullet_speed, bullet_path, frame_rate_ms, move_rate_ms)
-        self.bullet_list.append(bullet)
-
-    def shoot(self,on_off = True):
-        self.is_shoot = on_off
-        if(on_off == True and self.is_jump == False and self.is_fall == False):
-
-            if(self.animation != self.shoot_r and self.animation != self.shoot_l):
-                self.frame = 0
-                self.is_shoot = True
-                if(self.direction == DIRECTION_R):
-                    self.animation = self.shoot_r
-                else:
-                    self.animation = self.shoot_l       
-
-    def receive_shoot(self):
-        self.lives -= 1
-        self.score += 100
+    
+    # def receive_shoot(self):
+    #     self.lives -= 1
+    #     self.score += 100
 
     def knife(self,on_off = True):
         self.is_knife = on_off
@@ -205,16 +183,10 @@ class Player:
         score_text = font.render("Score: " + str(self.score), True, BLANCO)
         screen.blit(score_text, (10, 10))
         
-        # for bullet in self.bullet_list:
-        #     bullet.draw(screen)
-        
-    def events(self, delta_ms, lista_eventos):
+    def events(self, delta_ms, lista_eventos,lista_balas):
         keys = dict()
         
         self.tiempo_transcurrido += delta_ms
-        
-        if keys.get(pygame.K_s, False) and not keys.get(pygame.K_a, False):
-            self.shoot_bullet()
 
         for event in lista_eventos:
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
@@ -238,13 +210,22 @@ class Player:
                     self.tiempo_last_jump = self.tiempo_transcurrido
 
             if (not keys.get(pygame.K_a, False)):
-                self.shoot(False)
-
-            if (not keys.get(pygame.K_a, False)):
                 self.knife(False)
 
             if (keys.get(pygame.K_s, False) and not keys.get(pygame.K_a, False)):
-                self.shoot()
-
+                self.shooting(lista_balas)
             if (keys.get(pygame.K_a, False) and not keys.get(pygame.K_s, False)):
                 self.knife()
+                
+    def shooting(self, lista_balas):
+        bullet_img = pygame.image.load(r'images\caracters\players\robot\Objects\Bullet_000.png').convert_alpha()
+        bullet_img =  pygame.transform.scale(bullet_img,(20,20))
+        if self.direction == DIRECTION_R:
+            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * DIRECTION_R), self.rect.centery, DIRECTION_R, bullet_img)
+        else:
+            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * -DIRECTION_R), self.rect.centery, -DIRECTION_R, bullet_img)
+
+        lista_balas.append(bullet)
+        print("esta disparando")
+  
+

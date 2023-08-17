@@ -4,19 +4,18 @@ from nivel import Level1
 from nivel_dos import Level2
 from nivel_tres import Level3
 from constantes import *
-# PANTALLA
+
 TAMAÑO_PANTALLA = (ANCHO_PANTALLA,ALTO_PANTALLA)
 
-# INICIAMOS PYGAME
 pygame.init()
-pygame.display.set_caption("Platform shooter")
+pygame.display.set_caption("Robot Blaster Adventure")
 
 RELOJ = pygame.time.Clock()
 PANTALLA = pygame.display.set_mode(TAMAÑO_PANTALLA)
 imagen_fondo = pygame.image.load(r"images/FONDO.png")
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-nivel_prueba = Level2(ANCHO_PANTALLA,ALTO_PANTALLA)
+nivel_prueba = Level3(ANCHO_PANTALLA,ALTO_PANTALLA)
 
 flag = True
 while flag:

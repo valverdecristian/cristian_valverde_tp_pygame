@@ -3,8 +3,6 @@ from pygame.locals import *
 from GUI_formulario_prueba import FormPrincipal
 from constantes import *
 
-TAMAÑO_PANTALLA = list()
-
 pygame.init()
 pygame.display.set_caption("Robot Blaster Adventure")
 
@@ -16,9 +14,9 @@ imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTAL
 form_principal = FormPrincipal(PANTALLA, 0, 0, ANCHO_PANTALLA, ALTO_PANTALLA, imagen_fondo, (171, 1, 1))
 
 pausa = pygame.image.load(r"menu_1\pause.png")
-pausa = pygame.transform.scale(pausa,(500,500))
+pausa = pygame.transform.scale(pausa,(ANCHO_PANTALLA,ALTO_PANTALLA))
 
-is_paused = False
+esta_en_pausa = False
 flag = True
 while flag:
     RELOJ.tick(FPS)
@@ -30,16 +28,16 @@ while flag:
             sys.exit(0)
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_ESCAPE:
-                is_paused = not is_paused
+                esta_en_pausa = not esta_en_pausa
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_TAB:
                 cambiar_modo()
             
-    PANTALLA.fill("Black")
+    PANTALLA.fill(ROJO)
     
-    if not is_paused:
+    if not esta_en_pausa:
         form_principal.update(lista_eventos)
     else:
-        PANTALLA.blit(pausa, (200,100))   
+        PANTALLA.blit(pausa, (0,0))
 
     pygame.display.update()
