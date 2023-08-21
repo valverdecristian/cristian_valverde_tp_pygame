@@ -55,7 +55,7 @@ class Player:
         self.bullet_list = list()
 
     def walk(self,direction):
-        if(self.is_jump == False and self.is_fall == False):
+        #if(self.is_jump == False and self.is_fall == False):
             if(self.direction != direction or (self.animation != self.walk_r and self.animation != self.walk_l)):
                 self.frame = 0
                 self.direction = direction

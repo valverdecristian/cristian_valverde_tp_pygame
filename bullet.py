@@ -1,4 +1,5 @@
 from constantes import *
+from enemigo import Enemy
 
 class Bullet2:
     def __init__(self, x, y, direction, image_bullet):
@@ -39,6 +40,8 @@ class Bullet2:
                 if enemy.lives == 0:
                     player.score += 200
                     enemy_list.remove(enemy)
+                    # new_enemy = Enemy.generate_random_enemy()
+                    # enemy_list.append(new_enemy)
                 if self in bullet_list:
                     bullet_list.remove(self)
 

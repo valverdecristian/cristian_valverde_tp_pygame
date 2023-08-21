@@ -1,6 +1,7 @@
 from player import *
 from constantes import *
 from auxiliar import Auxiliar
+from bullet import Bullet2
 import random
 
 class Enemy():
@@ -13,7 +14,7 @@ class Enemy():
 
         self.contador = 0
         self.frame = 0
-        self.lives = 3
+        self.lives = 5
         self.score = 0
         self.move_x = 0
         self.move_y = 0
@@ -47,6 +48,7 @@ class Enemy():
         self.tiempo_transcurrido = 0
         self.tiempo_last_jump = 0 # en base al tiempo transcurrido general
         self.interval_time_jump = interval_time_jump
+        self.bullet_list = list()
    
     def change_x(self,delta_x):
         '''
@@ -123,8 +125,20 @@ class Enemy():
         '''
         Actualiza el enemigo, gestionando su movimiento y animación.
         '''
-        self.do_movement(delta_ms,plataform_list)
-        self.do_animation(delta_ms) 
+        # for bullet in self.bullet_list:
+        #     bullet.update(delta_ms, plataform_list)
+        # self.do_movement(delta_ms,plataform_list)
+        # self.do_animation(delta_ms) 
+        for bullet in self.bullet_list:
+            bullet.update(delta_ms, plataform_list)
+        self.do_movement(delta_ms, plataform_list)
+        self.do_animation(delta_ms)
+        
+        # Agregar el siguiente bloque para hacer que el enemigo dispare cada 3000 ms
+        self.tiempo_transcurrido += delta_ms
+        if self.tiempo_transcurrido >= 3000:
+            self.tiempo_transcurrido = 0
+            self.shooting(self.bullet_list)
 
     def draw(self,screen):
         '''
@@ -143,6 +157,18 @@ class Enemy():
         Reduce la vida del enemigo cuando recibe un disparo.
         '''
         self.lives -= 1
+        
+    def shooting(self, lista_balas):
+        bullet_img = pygame.image.load(r'images\caracters\players\robot\Objects\Bullet_000.png').convert_alpha()
+        bullet_img = pygame.transform.scale(bullet_img, (20, 20))
+        
+        if self.direction == DIRECTION_R:
+            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * DIRECTION_R), self.rect.centery, DIRECTION_R, bullet_img)
+        else:
+            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * -DIRECTION_R), self.rect.centery, -DIRECTION_R, bullet_img)
+
+        lista_balas.append(bullet)
+        print("el enemigo está disparando")
         
         
     @staticmethod
