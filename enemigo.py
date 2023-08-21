@@ -121,7 +121,7 @@ class Enemy():
             else: 
                 self.frame = 0
 
-    def update(self,delta_ms,plataform_list):
+    def update(self,delta_ms,plataform_list, lista_balas):
         '''
         Actualiza el enemigo, gestionando su movimiento y animación.
         '''
@@ -129,16 +129,17 @@ class Enemy():
         #     bullet.update(delta_ms, plataform_list)
         # self.do_movement(delta_ms,plataform_list)
         # self.do_animation(delta_ms) 
-        for bullet in self.bullet_list:
-            bullet.update(delta_ms, plataform_list)
+
+
+
         self.do_movement(delta_ms, plataform_list)
         self.do_animation(delta_ms)
         
         # Agregar el siguiente bloque para hacer que el enemigo dispare cada 3000 ms
         self.tiempo_transcurrido += delta_ms
-        if self.tiempo_transcurrido >= 3000:
+        if self.tiempo_transcurrido >= 1000:
             self.tiempo_transcurrido = 0
-            self.shooting(self.bullet_list)
+            self.shooting(lista_balas= lista_balas)
 
     def draw(self,screen):
         '''
@@ -162,10 +163,10 @@ class Enemy():
         bullet_img = pygame.image.load(r'images\caracters\players\robot\Objects\Bullet_000.png').convert_alpha()
         bullet_img = pygame.transform.scale(bullet_img, (20, 20))
         
-        if self.direction == DIRECTION_R:
-            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * DIRECTION_R), self.rect.centery, DIRECTION_R, bullet_img)
-        else:
+        if self.contador <= 40 :
             bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * -DIRECTION_R), self.rect.centery, -DIRECTION_R, bullet_img)
+        else:
+            bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * DIRECTION_R), self.rect.centery, DIRECTION_R, bullet_img)
 
         lista_balas.append(bullet)
         print("el enemigo está disparando")

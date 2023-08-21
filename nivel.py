@@ -53,17 +53,18 @@ class Level1():
         if self.bullet_list_enemy:
             for bullet in self.bullet_list_enemy:
                 print("bala del enemigo")
-                bullet.update(self, self.enemy_list, self.bullet_list_enemy)
+                bullet.update(self, self.player,self.enemy_list,self.bullet_list_enemy)
 
         for enemy_element in self.enemy_list:
             # if self.player.rect.colliderect(enemy_element.rect):
             #     print("colisiono con el enemigo")
             #     self.enemy_list.remove(enemy_element)
-            enemy_element.update(delta_ms,self.plataform_list)
+            enemy_element.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
             
         if not self.enemy_list and self.flagenemy == False:
             print("aparece la llave")
             self.flagenemy = True
+            # new_enemy = Enemy.generate_random_enemy()
             llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyBlue.png", nombre="llave")
             self.objeto_list.append(llave)
             
@@ -82,13 +83,12 @@ class Level1():
 
         self.player.events(delta_ms,lista_eventos,self.bullet_list_player)
         self.player.update(delta_ms,self.plataform_list)
+        self.cronometro.actualizar()
         
         for enemy in self.enemy_list:
             # enemy.events(delta_ms, lista_eventos,self.bullet_list_enemy)
-            enemy.update(delta_ms,self.plataform_list)
+            enemy.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
 
-        self.cronometro.actualizar()
-    
     def draw(self, pantalla): 
         if leer_bandera("nivel_1", "reset"):
             print("Gano")
@@ -128,3 +128,4 @@ class Level1():
             archivo.write(str(self.player.score))
             
 # fin del nivel
+

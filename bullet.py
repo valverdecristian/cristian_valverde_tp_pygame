@@ -1,5 +1,4 @@
 from constantes import *
-from enemigo import Enemy
 
 class Bullet2:
     def __init__(self, x, y, direction, image_bullet):
@@ -16,22 +15,25 @@ class Bullet2:
         self.rect.x = self.x
 
         if self.x < 0 or self.x > ANCHO_PANTALLA:
-            bullet_list.remove(self)
+            if self in bullet_list:
+                bullet_list.remove(self)
 
 
         for obstacle in nivel_actual.plataform_list:
             if self.rect.colliderect(obstacle.rect) and self in bullet_list:
-                bullet_list.remove(self)
+                 if self in bullet_list:
+                    bullet_list.remove(self)
 
         for bullet in bullet_list:
             if bullet != self and self.rect.colliderect(bullet.rect):
-                #bullet_list.remove(self)
-                bullet_list.remove(bullet)
+                if self in bullet_list:
+                    bullet_list.remove(self)
 
         if player.rect.colliderect(self.rect):
             if player.lives > 0:
                 player.lives -= 1
-                bullet_list.remove(self)
+                if self in bullet_list:
+                    bullet_list.remove(self)
 
         for enemy in enemy_list:
             if enemy.rect.colliderect(self.rect):
@@ -47,4 +49,3 @@ class Bullet2:
 
     def draw(self, pantalla):
         pantalla.blit(self.image, self.rect)
-

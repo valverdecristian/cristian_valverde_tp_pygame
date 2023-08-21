@@ -78,7 +78,7 @@ class Player:
                 if(self.direction == DIRECTION_R):
                     self.animation = self.knife_r
                 else:
-                    self.animation = self.knife_l      
+                    self.animation = self.knife_l
 
     def jump(self,on_off = True):
         if(on_off and self.is_jump == False and self.is_fall == False):
@@ -228,4 +228,3 @@ class Player:
         lista_balas.append(bullet)
         print("esta disparando")
   
-

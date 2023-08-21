@@ -29,8 +29,9 @@ class Level2():
         self.enemy_list.append (Enemy(x=1100,y=100,speed_walk=3,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         self.plataform_list = list()
         self.objeto_list = list()
-        self.bullet_list = list()
+        self.bullet_list_player = list()
         self.flagenemy = False
+        self.bullet_list_enemy = list()
 
         for coordenada in self.datos_obtenidos["segundo_nivel"]["plataformas"]:
             x,y,width,height,type=coordenada
@@ -46,16 +47,21 @@ class Level2():
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
+        if self.bullet_list_player:
+            for bullet in self.bullet_list_player:
+                print("bala creada")
+                bullet.update(self, self.player, self.enemy_list, self.bullet_list_player)
+        if self.bullet_list_enemy:
+            for bullet in self.bullet_list_enemy:
+                print("bala del enemigo")
+                bullet.update(self, self.player,self.enemy_list,self.bullet_list_enemy)
 
-        for bullet_element in self.bullet_list:
-            print("dispara")
-            bullet_element.update(self, self.player, self.enemy_list, self.bullet_list)
         for enemy_element in self.enemy_list:
             # if self.player.rect.colliderect(enemy_element.rect):
             #     print("colisiono con el enemigo")
             #     self.enemy_list.remove(enemy_element)
-            enemy_element.update(delta_ms,self.plataform_list)
-
+            enemy_element.update(delta_ms,self.plataform_list, self.bullet_list_enemy)
+            
         if not self.enemy_list and self.flagenemy == False:
             print("aparece la llave")
             self.flagenemy = True
@@ -75,9 +81,13 @@ class Level2():
                     modificar_banderas("nivel_2", "reset", True)
                 self.objeto_list.remove(objeto)  # Elimina el objeto
 
-        self.player.events(delta_ms,lista_eventos,self.bullet_list)
+        self.player.events(delta_ms,lista_eventos,self.bullet_list_player)
         self.player.update(delta_ms,self.plataform_list)
         self.cronometro.actualizar()
+        
+        for enemy in self.enemy_list:
+            # enemy.events(delta_ms, lista_eventos,self.bullet_list_enemy)
+            enemy.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
 
     def draw(self, pantalla): 
         if leer_bandera("nivel_2", "reset"):
@@ -102,11 +112,14 @@ class Level2():
             self.player.draw(pantalla)
             self.barra_salud.draw(self.player.lives,pantalla)
 
-            for bullet_element in self.bullet_list:
-                bullet_element.draw(pantalla)
+            for bullet in self.bullet_list_player:
+                bullet.draw(pantalla)
                 
-            for gema_element in self.objeto_list:
-                gema_element.draw(pantalla)
+            for bullet in self.bullet_list_enemy:
+                bullet.draw(pantalla)
+                
+            for objeto in self.objeto_list:
+                objeto.draw(pantalla)
                 
             self.cronometro.mostrar_tiempo(pantalla)
     
