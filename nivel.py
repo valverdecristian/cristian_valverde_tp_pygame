@@ -19,8 +19,8 @@ class Level1():
         self.last_update_time = pygame.time.get_ticks()
         self.static_background = Background(x=0,y=0,width=w,height=h,path="images/locations/all.png")
 
-        self.player = Player(x=100,y=200,speed_walk=6,speed_run=12,gravity=14,jump_power=30,frame_rate_ms=100,move_rate_ms=50,jump_height=140,p_scale=0.2,interval_time_jump=300)
-        self.barra_salud = HealthBar(200, 10, self.player.lives, 5)
+        self.player = Player(x=100,y=200,speed_walk=10,speed_run=12,gravity=14,jump_power=30,frame_rate_ms=100,move_rate_ms=50,jump_height=140,p_scale=0.2,interval_time_jump=300)
+        self.barra_salud = HealthBar(200, 10, self.player.lives, self.player.lives)
         self.datos_obtenidos = Auxiliar.leer_json(ruta="niveles.json")
 
         self.enemy_list = list()
@@ -31,6 +31,7 @@ class Level1():
         self.bullet_list_player = list()
         self.flagenemy = False
         self.bullet_list_enemy = list()
+        self.enemy_random = 0
         
         for coordenada in self.datos_obtenidos["primer_nivel"]["plataformas"]:
             x,y,width,height,type=coordenada
@@ -39,54 +40,51 @@ class Level1():
             gema = Objeto(x=x, y=y-80, width=30, height=30, image_path="images/objetos/gema1.png", nombre="gema")
             self.objeto_list.append(gema)
             
-        for coordenada in self.datos_obtenidos["primer_nivel"]["veneno"]:
+        for coordenada in self.datos_obtenidos["primer_nivel"]["salud"]:
             x,y,width,height = coordenada
-            self.objeto_list.append(Objeto(x,y,width,height, image_path="images/objetos/veneno.png", nombre="veneno"))
+            self.objeto_list.append(Objeto(x,y,width,height, image_path="images/objetos/salud.png", nombre="salud"))
 
     def update(self,lista_eventos):
         delta_ms = pygame.time.get_ticks() - self.last_update_time
         self.last_update_time = pygame.time.get_ticks()
         if self.bullet_list_player:
             for bullet in self.bullet_list_player:
-                print("bala creada")
                 bullet.update(self, self.player, self.enemy_list, self.bullet_list_player)
         if self.bullet_list_enemy:
             for bullet in self.bullet_list_enemy:
-                print("bala del enemigo")
                 bullet.update(self, self.player,self.enemy_list,self.bullet_list_enemy)
 
         for enemy_element in self.enemy_list:
-            # if self.player.rect.colliderect(enemy_element.rect):
-            #     print("colisiono con el enemigo")
-            #     self.enemy_list.remove(enemy_element)
             enemy_element.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
             
-        if not self.enemy_list and self.flagenemy == False:
-            print("aparece la llave")
-            self.flagenemy = True
-            # new_enemy = Enemy.generate_random_enemy()
-            llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyBlue.png", nombre="llave")
-            self.objeto_list.append(llave)
+        if not self.enemy_list and self.enemy_random < 1:
+            new_enemy = Enemy.generate_random_enemy()
+            self.enemy_list.append(new_enemy)
+            self.enemy_random +=1
+            if self.enemy_random == 1:
+                llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyGreen.png", nombre="llave")
+                self.objeto_list.append(llave)
             
         for objeto in self.objeto_list:
             if self.player.rect.colliderect(objeto.rect):
                 if objeto.nombre == "gema":
                     self.player.score += 100  # Aumentar el puntaje del jugador
-                elif objeto.nombre == "veneno":
-                    print("tomo un veneno xd")
-                    self.player.lives -=1 # Restar vida del jugador
+                elif objeto.nombre == "salud":
+                    if self.player.lives <= 8:
+                        self.player.lives +=2
+                    else:
+                        self.player.lives +=1
                 elif objeto.nombre == "llave":
                     self.guardar_partida()
                     modificar_banderas("nivel_1", "terminado", True)
                     modificar_banderas("nivel_1", "reset", True)
-                self.objeto_list.remove(objeto)  # Elimina el objeto
+                self.objeto_list.remove(objeto)
 
         self.player.events(delta_ms,lista_eventos,self.bullet_list_player)
         self.player.update(delta_ms,self.plataform_list)
         self.cronometro.actualizar()
         
         for enemy in self.enemy_list:
-            # enemy.events(delta_ms, lista_eventos,self.bullet_list_enemy)
             enemy.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
 
     def draw(self, pantalla): 
@@ -96,7 +94,7 @@ class Level1():
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
         elif self.player.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
-            print("juego terminado")
+            print("perdio")
             imagen = pygame.image.load(r'menu_1\gameover.png')
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
@@ -127,5 +125,4 @@ class Level1():
         with open("score.txt","w") as archivo:
             archivo.write(str(self.player.score))
             
-# fin del nivel
-
+# fin del nivel 1

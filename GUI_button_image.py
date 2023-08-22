@@ -2,9 +2,6 @@ import pygame
 from pygame.locals import *
 from GUI_widget import Widget
 
-FPS = 18
-
-    
 class Button_Image(Widget):
     def __init__(self, screen,master_x,master_y, x,y,w,h, path_image,
                 onclick=None, onclick_param=None, text="", font="Arial", font_size=12, font_color="Black",
@@ -45,7 +42,7 @@ class Button_Image(Widget):
     
     def update(self, lista_eventos):
         self.isclicked = False
-        if self.contador_click > FPS/2:    
+        if self.contador_click > 9:
             for evento in lista_eventos:
                 if evento.type == pygame.MOUSEBUTTONDOWN:
                     if self.slave_rect_collide.collidepoint(evento.pos):

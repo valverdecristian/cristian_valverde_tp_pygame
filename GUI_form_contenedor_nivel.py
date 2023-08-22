@@ -6,6 +6,19 @@ from GUI_form_fin import*
 from Manejador_niveles import*
 
 class FormContenedorNivel(Form):
+    '''
+    Inicia una instancia de la clase FormContenedorNivel.
+
+        Parámetros:
+        pantalla (pygame.Surface): La superficie de pantalla en la que se dibujará el formulario.
+        nivel (ManejadorNiveles): Una instancia del manejador de niveles.
+
+        Atributos:
+        nivel (ManejadorNiveles): Una instancia del manejador de niveles.
+        _btn_home (Button_Image): Un botón de imagen que representa un botón de "inicio".
+        form_jugar (FormFin): Un formulario para el juego.
+        lista_de_botones (list): Una lista que contiene los botones en el formulario.
+    '''
     def __init__(self,pantalla:pygame.Surface,nivel):
         super().__init__(pantalla,0,0,pantalla.get_width(),pantalla.get_height(),color_background="Black")
    
@@ -32,6 +45,12 @@ class FormContenedorNivel(Form):
         self.lista_de_botones.append(self._btn_home)
 
     def update(self,lista_eventos):
+        '''
+        Actualiza el formulario y sus elementos.
+
+        Parámetros:
+        lista_eventos (list): Una lista de eventos de pygame.
+        '''
         self.nivel.update(lista_eventos)     
         self.draw()
         for widget in self.lista_de_botones:
@@ -39,7 +58,9 @@ class FormContenedorNivel(Form):
 
         
     def draw(self):
+        '''Dibuja el formulario y el nivel en la superficie maestra.'''
         self.nivel.draw(self._master)
 
     def btn_home_click(self,param):
+        '''Maneja el evento de clic en el botón "inicio".'''
         self.end_dialog()

@@ -14,7 +14,7 @@ class Enemy():
 
         self.contador = 0
         self.frame = 0
-        self.lives = 5
+        self.lives = 3
         self.score = 0
         self.move_x = 0
         self.move_y = 0
@@ -32,6 +32,7 @@ class Enemy():
         self.ground_collition_rect = pygame.Rect(self.collition_rect)
         self.ground_collition_rect.height = GROUND_COLLIDE_H
         self.ground_collition_rect.y = y + self.rect.height - GROUND_COLLIDE_H
+        self.sonido_die = pygame.mixer.Sound(r"sounds\efectos\dieenemy.wav")
 
         self.is_jump = False
         self.is_fall = False
@@ -81,12 +82,10 @@ class Enemy():
                 self.is_fall = False
                 self.change_x(self.move_x)
                 if self.contador <= 30:
-                    # print(self.contador)
                     self.move_x = -self.speed_walk
                     self.animation = self.walk_l
-                    self.contador += 1 
+                    self.contador += 1
                 elif self.contador <= 60:
-                    # print(self.contador)
                     self.move_x = self.speed_walk
                     self.animation = self.walk_r
                     self.contador += 1
@@ -117,7 +116,6 @@ class Enemy():
             self.tiempo_transcurrido_animation = 0
             if(self.frame < len(self.animation) - 1):
                 self.frame += 1 
-                # print(self.frame)
             else: 
                 self.frame = 0
 
@@ -125,21 +123,12 @@ class Enemy():
         '''
         Actualiza el enemigo, gestionando su movimiento y animación.
         '''
-        # for bullet in self.bullet_list:
-        #     bullet.update(delta_ms, plataform_list)
-        # self.do_movement(delta_ms,plataform_list)
-        # self.do_animation(delta_ms) 
-
-
-
         self.do_movement(delta_ms, plataform_list)
         self.do_animation(delta_ms)
-        
-        # Agregar el siguiente bloque para hacer que el enemigo dispare cada 3000 ms
         self.tiempo_transcurrido += delta_ms
         if self.tiempo_transcurrido >= 1000:
             self.tiempo_transcurrido = 0
-            self.shooting(lista_balas= lista_balas)
+            self.shooting(lista_balas = lista_balas)
 
     def draw(self,screen):
         '''
@@ -158,6 +147,8 @@ class Enemy():
         Reduce la vida del enemigo cuando recibe un disparo.
         '''
         self.lives -= 1
+        if self.lives <= 0:
+            self.sonido_die.play()
         
     def shooting(self, lista_balas):
         bullet_img = pygame.image.load(r'images\caracters\players\robot\Objects\Bullet_000.png').convert_alpha()
@@ -169,8 +160,6 @@ class Enemy():
             bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * DIRECTION_R), self.rect.centery, DIRECTION_R, bullet_img)
 
         lista_balas.append(bullet)
-        print("el enemigo está disparando")
-        
         
     @staticmethod
     def generate_random_enemy():
@@ -178,17 +167,9 @@ class Enemy():
         Un método estático que genera un enemigo con valores aleatorios para sus
         atributos, lo que permite crear enemigos aleatorios en el juego.
         '''
-        # Generar valores aleatorios para las propiedades del enemigo
         x = random.randint(0, ANCHO_PANTALLA)
-        y = random.randint(0, ALTO_PANTALLA)
-        speed_walk = random.randint(1, 5)
-        speed_run = random.randint(1, 10)
-        gravity = random.randint(1, 10)
-        jump_power = random.randint(1, 10)
-        frame_rate_ms = random.randint(100, 500)
-        move_rate_ms = random.randint(100, 500)
-        jump_height = random.randint(100, 500)
-
-        # Crear una nueva instancia de enemigo con los valores aleatorios
-        enemy = Enemy(x, y, speed_walk, speed_run, gravity, jump_power, frame_rate_ms, move_rate_ms, jump_height)
+        y = random.randint(0, 400)
+        enemy= (Enemy(x=x,y=y,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
         return enemy
+
+# fin enemigo

@@ -18,7 +18,7 @@ class Player:
         self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,7,flip=True,scale=p_scale,repeat_frame=1)
 
         self.frame = 0
-        self.lives = 5
+        self.lives = 10
         self.score = 0
         self.move_x = 0
         self.move_y = 0
@@ -41,6 +41,7 @@ class Player:
         self.is_fall = False
         self.is_shoot = False
         self.is_knife = False
+        self.sonido_disparo = pygame.mixer.Sound(r"sounds\efectos\disparo.wav")
 
         self.tiempo_transcurrido_animation = 0
         self.frame_rate_ms = frame_rate_ms 
@@ -55,20 +56,15 @@ class Player:
         self.bullet_list = list()
 
     def walk(self,direction):
-        #if(self.is_jump == False and self.is_fall == False):
-            if(self.direction != direction or (self.animation != self.walk_r and self.animation != self.walk_l)):
-                self.frame = 0
-                self.direction = direction
-                if(direction == DIRECTION_R):
-                    self.move_x = self.speed_walk
-                    self.animation = self.walk_r
-                else:
-                    self.move_x = -self.speed_walk
-                    self.animation = self.walk_l
-    
-    # def receive_shoot(self):
-    #     self.lives -= 1
-    #     self.score += 100
+        if(self.direction != direction or (self.animation != self.walk_r and self.animation != self.walk_l)):
+            self.frame = 0
+            self.direction = direction
+            if(direction == DIRECTION_R):
+                self.move_x = self.speed_walk
+                self.animation = self.walk_r
+            else:
+                self.move_x = -self.speed_walk
+                self.animation = self.walk_l
 
     def knife(self,on_off = True):
         self.is_knife = on_off
@@ -100,7 +96,6 @@ class Player:
     def stay(self):
         if self.is_knife or self.is_shoot:
             return
-
         if self.animation != self.stay_r and self.animation != self.stay_l:
             if(self.direction == DIRECTION_R):
                 self.animation = self.stay_r
@@ -158,19 +153,16 @@ class Player:
             self.tiempo_transcurrido_animation = 0
             if(self.frame < len(self.animation) - 1):
                 self.frame += 1 
-                #print(self.frame)
             else: 
                 self.frame = 0
- 
+
     def update(self,delta_ms,plataform_list):
         for bullet in self.bullet_list:
             bullet.update(delta_ms, plataform_list)
         self.do_movement(delta_ms,plataform_list)
         self.do_animation(delta_ms)
-        
-    
+
     def draw(self,screen):
-        
         if(DEBUG):
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
@@ -214,6 +206,7 @@ class Player:
 
             if (keys.get(pygame.K_s, False) and not keys.get(pygame.K_a, False)):
                 self.shooting(lista_balas)
+                self.sonido_disparo.play()
             if (keys.get(pygame.K_a, False) and not keys.get(pygame.K_s, False)):
                 self.knife()
                 
@@ -226,5 +219,3 @@ class Player:
             bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * -DIRECTION_R), self.rect.centery, -DIRECTION_R, bullet_img)
 
         lista_balas.append(bullet)
-        print("esta disparando")
-  
