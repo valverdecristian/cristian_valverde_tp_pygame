@@ -29,7 +29,7 @@ class FormMenuPlay(Form):
         
         self._btn_home = Button_Image(screen=self._slave,x=400,y=400,master_x=x,master_y=y,
                                          w=50,h=50,onclick=self.btn_home_click,
-                                         onclick_param="",path_image=r"API_FORMS\home.png")
+                                         onclick_param="",path_image=r"images\API_forms2\home.png")
     
         self.lista_de_botones.append(self._btn_level_1)
         self.lista_de_botones.append(self._btn_level_2)
@@ -48,7 +48,7 @@ class FormMenuPlay(Form):
             self.hijo.update(lista_eventos)
 
     def entrar_nivel_1(self,nombrevel):
-        print("entre nivel")
+        print("entre nivel 1")
         modificar_banderas("nivel_1", "reset", False)
         nivel = self.manejador_niveles.get_nivel_1()
         form_contenedor_nivel = FormContenedorNivel(self._master,nivel)
@@ -74,7 +74,7 @@ class FormMenuPlay(Form):
             self.show_dialog(form_contenedor_nivel)
 
     def btn_home_click(self,param):
-        print("sali del nivel ")
+        print("sali del nivel")
         self.end_dialog()
 
         

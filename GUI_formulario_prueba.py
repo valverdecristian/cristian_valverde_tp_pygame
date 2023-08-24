@@ -33,7 +33,7 @@ class FormPrincipal(Form):
         self.btn_sound = Button(self._slave,x,y,350,410,160,60,(70,59,59),"Blue",self.btn_play_click,"Nombre","Pause music",font="Verdana",font_size=15,font_color="White")
         
         self.slider_volumen = Slider(self._slave,x,y,200,490,500,15,self.volumen,(70,59,59),"White")
-        self.label_volumen = Label(self._slave, 750, 470, 100, 50 ,"20%","Comic Sans",15,"White",r"menu_1\boton-de-volumen.png" )
+        self.label_volumen = Label(self._slave, 750, 470, 100, 50 ,"20%","Comic Sans",15,"White",r"images/menu/boton-de-volumen.png" )
 
 
         # AGRERGARLOS A LA LISTA
@@ -45,9 +45,9 @@ class FormPrincipal(Form):
         self.lista_de_botones.append(self.btn_select_level)
         
         # agregar sonido
-        # pygame.mixer.music.load(r"menu_1\fondo_menu.mp3")
-        # pygame.mixer.music.set_volume(self.volumen)
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.load(r"sounds/ambiente/ambiente.wav")
+        pygame.mixer.music.set_volume(self.volumen)
+        pygame.mixer.music.play(-1)
 
         self.render()
 
@@ -108,7 +108,7 @@ class FormPrincipal(Form):
                                     color_background= (220,0,220),
                                     color_border= (255,255,255),
                                     active= True,
-                                    path_image= r"menu_1\levels.png")
+                                    path_image= r'images\menu\levels.png')
             
 
             banderas = {
@@ -146,24 +146,21 @@ class FormPrincipal(Form):
             self.flag_sql = False
 
     def btn_tabla_click(self,texto):
-       # dic_score = [{"jugador" : f"{self.txtbox.get_text()}","Score":f"{slice}"},]
-        
         nombre = self.txtbox.get_text() # insert nombre
-        ultimo_score = [] # puntaje
+        ultimo_score = list()
         
         # ACCEDO AL ULTIMO SCORE
         archivo = open("score.txt","r")
         for linea in archivo:
             ultimo_score.append(linea)
-        archivo.close()  
+        archivo.close()
             
-       
         # INSERTO EN BD
         with sqlite3.connect("mi_base_de_datos.db") as conexion:
             print("Conexión a la base de datos establecida")
             try:
                 print("entre",nombre,ultimo_score[0])
-                sentencia = ' insert into Ranking (nombre, score) values(?,?)'
+                sentencia = 'insert into Ranking (nombre, score) values(?,?)'
                 conexion.execute(sentencia, (nombre, ultimo_score[0]))
                 conexion.commit()
                 print("Sentencia ejecutada correctamente")  # Agrega esta línea para verificar la ejecución
@@ -173,7 +170,7 @@ class FormPrincipal(Form):
                 print(f"Error en Base de datos {e}")
 
 
-        dic_score = []
+        dic_score = list()
 
         with sqlite3.connect("mi_base_de_datos.db") as conexion:
             try:
@@ -189,5 +186,5 @@ class FormPrincipal(Form):
             except Exception as e:
                 print(f"Error en Base de datos {e}")
 
-        form_puntaje = FormMenuScore(self._master,300,50,500,500,(220,0,220),"white",True,r"API_FORMS\Window.png",dic_score,100,10,10)
+        form_puntaje = FormMenuScore(self._master,300,50,500,500,(220,0,220),"white",True,r'images\API_forms2\Window.png',dic_score,100,10,10)
         self.show_dialog(form_puntaje)

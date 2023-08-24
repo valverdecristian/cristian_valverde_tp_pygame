@@ -24,9 +24,9 @@ class Level3():
         self.datos_obtenidos = Auxiliar.leer_json(ruta="niveles.json")
 
         self.enemy_list = list()
-        self.enemy_list.append (Enemy(x=900,y=400,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
-        self.enemy_list.append (Enemy(x=900,y=200,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
-        self.enemy_list.append (Enemy(x=550,y=100,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
+        self.enemy_list.append (Enemy(x=900,y=400,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.24,interval_time_jump=300))
+        self.enemy_list.append (Enemy(x=900,y=200,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.24,interval_time_jump=300))
+        self.enemy_list.append (Enemy(x=550,y=100,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.24,interval_time_jump=300))
         self.plataform_list = list()
         self.objeto_list = list()
         self.bullet_list_player = list()
@@ -58,11 +58,11 @@ class Level3():
         for enemy_element in self.enemy_list:
             enemy_element.update(delta_ms,self.plataform_list, self.bullet_list_enemy)
             
-        if not self.enemy_list and self.enemy_random < 3:
+        if not self.enemy_list and self.enemy_random < 6:
             new_enemy = Enemy.generate_random_enemy()
             self.enemy_list.append(new_enemy)
             self.enemy_random +=1
-            if self.enemy_random == 3:
+            if self.enemy_random == 6:
                 llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyGreen.png", nombre="llave")
                 self.objeto_list.append(llave)
             
@@ -91,12 +91,12 @@ class Level3():
     def draw(self, pantalla): 
         if leer_bandera("nivel_3", "reset"):
             print("Gano")
-            imagen = pygame.image.load(r'menu_1\win.jpg')
+            imagen = pygame.image.load(r'images\menu\win.png')
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
         elif  self.player.lives <= 0 or self.cronometro.tiempo_desendente <= 0 :
             print("perdio")
-            imagen = pygame.image.load(r'menu_1\gameover.png')
+            imagen = pygame.image.load(r'images\menu\gameover.png')
             imagen_escalada = pygame.transform.scale(imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
             pantalla.blit(imagen_escalada, (0, 0))
         else:

@@ -42,6 +42,7 @@ class Player:
         self.is_shoot = False
         self.is_knife = False
         self.sonido_disparo = pygame.mixer.Sound(r"sounds\efectos\disparo.wav")
+        self.sonido_jump = pygame.mixer.Sound(r"sounds\efectos\jump.wav")
 
         self.tiempo_transcurrido_animation = 0
         self.frame_rate_ms = frame_rate_ms 
@@ -89,6 +90,7 @@ class Player:
                 self.animation = self.jump_l
             self.frame = 0
             self.is_jump = True
+            self.sonido_jump.play()
         if(on_off == False):
             self.is_jump = False
             self.stay()

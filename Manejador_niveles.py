@@ -8,7 +8,6 @@ class Manejador_niveles:
     def __init__(self, pantalla) -> None:
         self._slave = pantalla
         self.nivel = None
-        # self.nivel_uno = None
        
     def get_nivel_1(self):
         self.nivel = Level1(ANCHO_PANTALLA,ALTO_PANTALLA)

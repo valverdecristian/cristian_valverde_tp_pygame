@@ -11,12 +11,8 @@ class Label(Widget):
         self._text = text
         self._font = pygame.font.SysFont(font, font_size)
         self._font_color = font_color
-        #if path_image != "":
         aux_image = pygame.image.load(path_image)
         aux_image = pygame.transform.scale(aux_image,(w,h))
-        #else:
-            # aux_image = pygame.Surface((w,h))
-            #aux_image.set_alpha(0)#Transparente
             
         self._slave = aux_image
         self.img_original = aux_image.copy()

@@ -12,10 +12,10 @@ pygame.display.set_caption("Robot Blaster Adventure")
 
 RELOJ = pygame.time.Clock()
 PANTALLA = pygame.display.set_mode(TAMAÑO_PANTALLA)
-imagen_fondo = pygame.image.load(r"images/FONDO.png")
+imagen_fondo = pygame.image.load(r"images/locations/FONDO.png")
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-nivel_prueba = Level1(ANCHO_PANTALLA,ALTO_PANTALLA)
+nivel_prueba = Level3(ANCHO_PANTALLA,ALTO_PANTALLA)
 
 flag = True
 while flag:

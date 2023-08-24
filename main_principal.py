@@ -2,7 +2,6 @@ import pygame,sys
 from pygame.locals import *
 from GUI_formulario_prueba import FormPrincipal
 from constantes import *
-import os
 
 pygame.init()
 pygame.display.set_caption("Robot Blaster Adventure")
@@ -14,17 +13,11 @@ imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_PANTALLA, ALTO_PANTAL
 
 form_principal = FormPrincipal(PANTALLA, 0, 0, ANCHO_PANTALLA, ALTO_PANTALLA, imagen_fondo, (171, 1, 1))
 
-pausa = pygame.image.load(r"menu_1\pause.png")
+pausa = pygame.image.load(r"images\menu\pause.png")
 pausa = pygame.transform.scale(pausa,(ANCHO_PANTALLA,ALTO_PANTALLA))
 
-ruta_sonido = os.path.join(r"sounds\ambiente", r"ambiente.wav")
-sonido_ambiente = pygame.mixer.Sound(ruta_sonido)
-
-canal_ambiente = pygame.mixer.Channel(0)
-canal_ambiente.set_volume(0.1)
-canal_ambiente.play(sonido_ambiente, loops=-1)
-
 esta_en_pausa = False
+musica_en_pausa = False
 flag = True
 while flag:
     RELOJ.tick(FPS)
@@ -32,16 +25,17 @@ while flag:
 
     for evento in lista_eventos:
         if evento.type == pygame.QUIT:
-            sonido_ambiente.stop()
             pygame.quit()
             sys.exit(0)
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_ESCAPE:
                 esta_en_pausa = not esta_en_pausa
                 if esta_en_pausa:
-                    canal_ambiente.pause()
+                    pygame.mixer.music.pause()
+                    musica_en_pausa = True
                 else:
-                    canal_ambiente.unpause()
+                    musica_en_pausa = False
+                    pygame.mixer.music.unpause()
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_TAB:
                 cambiar_modo()

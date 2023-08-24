@@ -1,3 +1,4 @@
+import pygame
 from player import *
 from constantes import *
 from auxiliar import Auxiliar
@@ -6,11 +7,11 @@ import random
 
 class Enemy():
     
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
-        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/ork_sword/WALK/WALK_00{0}.png",0,7,scale=p_scale)
-        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/ork_sword/WALK/WALK_00{0}.png",0,7,flip=True,scale=p_scale)
-        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/ork_sword/IDLE/IDLE_00{0}.png",0,7,scale=p_scale)
-        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/ork_sword/IDLE/IDLE_00{0}.png",0,7,flip=True,scale=p_scale)
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=0.24,interval_time_jump=100) -> None:
+        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/Run__00{0}.png",0,7,scale=p_scale)
+        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/Run__00{0}.png",0,7,flip=True,scale=p_scale)
+        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/IDLE_00{0}.png",0,7,scale=p_scale)
+        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/IDLE_00{0}.png",0,7,flip=True,scale=p_scale)
 
         self.contador = 0
         self.frame = 0
@@ -32,7 +33,7 @@ class Enemy():
         self.ground_collition_rect = pygame.Rect(self.collition_rect)
         self.ground_collition_rect.height = GROUND_COLLIDE_H
         self.ground_collition_rect.y = y + self.rect.height - GROUND_COLLIDE_H
-        self.sonido_die = pygame.mixer.Sound(r"sounds\efectos\dieenemy.wav")
+        self.sonido_die = pygame.mixer.Sound(r"sounds\efectos\jump.wav")
 
         self.is_jump = False
         self.is_fall = False
@@ -147,7 +148,7 @@ class Enemy():
         Reduce la vida del enemigo cuando recibe un disparo.
         '''
         self.lives -= 1
-        if self.lives <= 0:
+        if self.lives <= 1:
             self.sonido_die.play()
         
     def shooting(self, lista_balas):
@@ -167,9 +168,9 @@ class Enemy():
         Un método estático que genera un enemigo con valores aleatorios para sus
         atributos, lo que permite crear enemigos aleatorios en el juego.
         '''
-        x = random.randint(0, ANCHO_PANTALLA)
+        x = random.randint(100, ANCHO_PANTALLA - 150)
         y = random.randint(0, 400)
-        enemy= (Enemy(x=x,y=y,speed_walk=6,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.08,interval_time_jump=300))
+        enemy= (Enemy(x=x,y=y,speed_walk=4,speed_run=5,gravity=14,jump_power=30,frame_rate_ms=150,move_rate_ms=50,jump_height=140,p_scale=0.24,interval_time_jump=300))
         return enemy
 
 # fin enemigo
