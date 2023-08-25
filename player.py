@@ -90,6 +90,7 @@ class Player:
                 self.animation = self.jump_l
             self.frame = 0
             self.is_jump = True
+            self.sonido_jump.set_volume(0.2)
             self.sonido_jump.play()
         if(on_off == False):
             self.is_jump = False
@@ -166,8 +167,8 @@ class Player:
 
     def draw(self,screen):
         if(DEBUG):
-            pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
-            pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
+            pygame.draw.rect(screen,color=ROJO,rect=self.collition_rect)
+            pygame.draw.rect(screen,color=AMARILLO,rect=self.ground_collition_rect)
         
         self.image = self.animation[self.frame]
         screen.blit(self.image,self.rect)
@@ -208,7 +209,6 @@ class Player:
 
             if (keys.get(pygame.K_s, False) and not keys.get(pygame.K_a, False)):
                 self.shooting(lista_balas)
-                self.sonido_disparo.play()
             if (keys.get(pygame.K_a, False) and not keys.get(pygame.K_s, False)):
                 self.knife()
                 
@@ -220,4 +220,6 @@ class Player:
         else:
             bullet = Bullet2(self.rect.centerx + (0.75 * self.rect.size[0] * -DIRECTION_R), self.rect.centery, -DIRECTION_R, bullet_img)
 
+        self.sonido_disparo.set_volume(0.2)
+        self.sonido_disparo.play()
         lista_balas.append(bullet)

@@ -33,7 +33,7 @@ class Enemy():
         self.ground_collition_rect = pygame.Rect(self.collition_rect)
         self.ground_collition_rect.height = GROUND_COLLIDE_H
         self.ground_collition_rect.y = y + self.rect.height - GROUND_COLLIDE_H
-        self.sonido_die = pygame.mixer.Sound(r"sounds\efectos\jump.wav")
+        self.sonido_die = pygame.mixer.Sound(r"sounds\efectos\dieenemy.wav")
 
         self.is_jump = False
         self.is_fall = False
@@ -127,7 +127,7 @@ class Enemy():
         self.do_movement(delta_ms, plataform_list)
         self.do_animation(delta_ms)
         self.tiempo_transcurrido += delta_ms
-        if self.tiempo_transcurrido >= 1000:
+        if self.tiempo_transcurrido >= 1200:
             self.tiempo_transcurrido = 0
             self.shooting(lista_balas = lista_balas)
 
@@ -148,7 +148,7 @@ class Enemy():
         Reduce la vida del enemigo cuando recibe un disparo.
         '''
         self.lives -= 1
-        if self.lives <= 1:
+        if self.lives <= 2:
             self.sonido_die.play()
         
     def shooting(self, lista_balas):

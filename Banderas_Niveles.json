@@ -1,14 +1,14 @@
 {
     "nivel_1": {
-        "terminado": true,
+        "terminado": false,
         "reset": false
     },
     "nivel_2": {
-        "terminado": true,
-        "reset": true
+        "terminado": false,
+        "reset": false
     },
     "nivel_3": {
-        "terminado": true,
-        "reset": true
+        "terminado": false,
+        "reset": false
     }
 }

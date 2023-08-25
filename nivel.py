@@ -57,11 +57,11 @@ class Level1():
         for enemy_element in self.enemy_list:
             enemy_element.update(delta_ms,self.plataform_list,self.bullet_list_enemy)
             
-        if not self.enemy_list and self.enemy_random < 4:
+        if not self.enemy_list and self.enemy_random < 6:
             new_enemy = Enemy.generate_random_enemy()
             self.enemy_list.append(new_enemy)
             self.enemy_random +=1
-            if self.enemy_random == 4:
+            if self.enemy_random == 6:
                 llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyGreen.png", nombre="llave")
                 self.objeto_list.append(llave)
             
