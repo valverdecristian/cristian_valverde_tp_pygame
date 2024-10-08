@@ -1,6 +1,6 @@
 import sqlite3
 
-lista = list()
+lista = []
 
 with sqlite3.connect("mi_base_de_datos.db") as conexion:
     try:
@@ -15,5 +15,3 @@ with sqlite3.connect("mi_base_de_datos.db") as conexion:
         
     except Exception as e:
         print(f"Error en Base de datos {e}")
-        
-print(lista)

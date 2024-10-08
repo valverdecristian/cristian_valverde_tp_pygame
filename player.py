@@ -142,13 +142,13 @@ class Player:
         retorno = False
         
         if(self.ground_collition_rect.bottom >= GROUND_LEVEL):
-            retorno = True     
+            retorno = True
         else:
             for plataforma in  plataform_list:
                 if(self.ground_collition_rect.colliderect(plataforma.ground_collition_rect)):
                     retorno = True
-                    break       
-        return retorno                 
+                    break
+        return retorno
 
     def do_animation(self,delta_ms):
         self.tiempo_transcurrido_animation += delta_ms

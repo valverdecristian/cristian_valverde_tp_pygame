@@ -62,7 +62,7 @@ class Level1():
             self.enemy_list.append(new_enemy)
             self.enemy_random +=1
             if self.enemy_random == 6:
-                llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyGreen.png", nombre="llave")
+                llave = Objeto(x=1000, y=550, width=70, height=100, image_path="images/objetos/keyBlue.png", nombre="llave")
                 self.objeto_list.append(llave)
             
         for objeto in self.objeto_list:
